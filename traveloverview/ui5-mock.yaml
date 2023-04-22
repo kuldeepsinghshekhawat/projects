@@ -1,0 +1,49 @@
+specVersion: "2.5"
+metadata:
+  name: sap.fe.demo.traveloverview
+type: application
+server:
+  customMiddleware:
+    - name: fiori-tools-proxy
+      afterMiddleware: compression
+      configuration:
+        ignoreCertError: false
+        ui5:
+          path:
+            - /resources
+            - /test-resources
+          url: https://ui5.sap.com
+        backend:
+          - scp: true
+            path: /sap/opu/odata4/sap/zui_fe_travel_002599_o4/srvd/sap/zui_fe_travel_002599_o4/0001/
+            url: https://6654aaf7-905f-48ea-b013-3811c03fcba8.abap.us10.hana.ondemand.com
+          - path: /sap
+            url: https://6654aaf7-905f-48ea-b013-3811c03fcba8.abap.us10.hana.ondemand.com
+          - path: /sap/opu/odata4/sap/zui_fe_travel_002611_o4/srvd/sap/zui_fe_travel_002611_o4/0001/
+            url: https://6654aaf7-905f-48ea-b013-3811c03fcba8.abap.us10.hana.ondemand.com
+          - path: /sap/opu/odata4/sap/zui_fe_travel_002611_o4/srvd/sap/zui_fe_travel_002611_o4/0001/
+            url: https://6654aaf7-905f-48ea-b013-3811c03fcba8.abap.us10.hana.ondemand.com
+          - path: /sap/opu/odata4/sap/zui_fe_travel_002599_o4/srvd/sap/zui_fe_travel_002599_o4/0001/
+            url: https://6654aaf7-905f-48ea-b013-3811c03fcba8.abap.us10.hana.ondemand.com
+    - name: fiori-tools-appreload
+      afterMiddleware: compression
+      configuration:
+        port: 35729
+        path: webapp
+        delay: 300
+    - name: sap-fe-mockserver
+      beforeMiddleware: csp
+      configuration:
+        service:
+          - urlPath: /sap/opu/odata/sap/ZUI_FE_BOOKING_002611_O2
+            metadataXmlPath: ./webapp/localService/mainService/metadata.xml
+            mockdataRootPath: ./webapp/localService/mainService/data
+            generateMockData: true
+          - urlPath: /sap/opu/odata4/sap/zui_fe_travel_002611_o4/srvd/sap/zui_fe_travel_002611_o4/0001/
+            metadataXmlPath: ./webapp/localService/zui_fe_travel_002611_o4/metadata.xml
+            mockdataRootPath: ./webapp/localService/zui_fe_travel_002611_o4/mockdata
+            generateMockData: true
+          - urlPath: /sap/opu/odata4/sap/zui_fe_travel_002599_o4/srvd/sap/zui_fe_travel_002599_o4/0001/
+            metadataXmlPath: ./webapp/localService/zui_fe_travel_002599_o4/metadata.xml
+            mockdataRootPath: ./webapp/localService/zui_fe_travel_002599_o4/mockdata
+            generateMockData: true
